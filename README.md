@@ -43,7 +43,7 @@ out: -0.3 0.7
 ```
 
 # Training
-Upon creation of the of an `OptimizerOpts` object the following options for the training of the network can be set. You can do a single training step using the Net's `trainStep` method or multiple epochs using the `train` method. The network can be evaluated using the `eval` method.
+Upon creation of an `OptimizerOpts` object the following options for the training of the network can be set. You can do a single training step using the Nets `trainStep` method or multiple epochs using the `train` method. The network can be evaluated using the `eval` method.
 
 ## Loss Types
 You can choose one of the following options when selecting a loss type.
@@ -105,7 +105,6 @@ In addition you have the following optimizer specific settings.
 For further information on this algorithm, see [ADAM](https://arxiv.org/abs/1412.6980) and [AMSGRAD](https://arxiv.org/abs/1904.09237).
 | Name | Type | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |
-| `regularization` | `RegularizationType` | `NONE` | type of regularization |
 | `ADAM_beta1` | `double` | 0.9 | parameter beta1 if the ADAM algorithm |
 | `ADAM_beta2` | `double` | 0.999 | parameter beta2 if the ADAM algorithm | 
 | `ADAM_eps` | `double` | `pow(10.0, -8)` | parameter eps if the ADAM algorithm |
