@@ -163,6 +163,12 @@ Eigen::MatrixXd Net::calcOutputGradients(const Eigen::MatrixXd &targetVal, const
     }
 } */
 
+void parallelStep(Net &net, Eigen::MatrixXd &inputs, Eigen::MatrixXd &targets)
+{
+    net.feedForward(inputs);
+    net.backProp(targets);
+}
+
 void Net::trainStep(TrainingData &trainData)
 {
     // updateEtas(eta);
@@ -185,26 +191,23 @@ void Net::trainStep(TrainingData &trainData)
             {
                 numParAct = 0;
                 std::vector<Net> nets(numPar, *this);
-                /* for (size_t iPar = 0; iPar < numPar; iPar++)
+                std::vector<std::thread> threads(numPar);
+                // spawn n threads:
+                for (size_t iPar = 0; iPar < numPar; iPar++)
                 {
-                    nets[iPar].in = inputs[iPar];
-                    nets[iPar].out = targets[iPar];
-                } */
+                    threads[iPar] = std::thread(parallelStep, std::ref(nets[iPar]), std::ref(inputs[iPar]), std::ref(targets[iPar]));
+                }
+                for (auto &th : threads)
+                {
+                    th.join();
+                }
+                /*
                 for (size_t iPar = 0; iPar < numPar; iPar++)
                 {
                     nets[iPar].feedForward(inputs[iPar]);
                     nets[iPar].backProp(targets[iPar]);
                 }
-                /*std::for_each(std::execution::par_unseq, nets.begin(), nets.end(), [](Net &net)
-                              {
-                    net.feedForward(net.in);
-                    net.backProp(net.out); });*/
-                /* #pragma omp parallel
-                for (size_t iPar = 0; iPar < numPar; iPar++)
-                {
-                    nets[iPar].feedForward(nets[iPar].in);
-                    nets[iPar].backProp(nets[iPar].out);
-                } */
+                */
                 for (size_t iLayer = 1; iLayer < m_layers.size(); iLayer++)
                 {
                     auto parameters = nets[0].m_layers[iLayer].getParameters();
