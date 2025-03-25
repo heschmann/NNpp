@@ -123,7 +123,7 @@ You can choose one of the following options.
 | `LOG_historyFolder` | `std::string` | `"tmp/history/"` | file path for the history files |
 
 ## Parallel Settings (not implemented)
-In parallel mode for each training pass `parallelBatches` copies of the current net are created. Each of these nets is trained on a different batch of training data. Afterwards the gradients resulting from the back propagation are averaged and applied to the original net. This option is not yet implemented, however.
+In parallel mode for each training pass `parallelBatches` copies of the current net are created. Each of these nets is trained on a different batch of training data. Afterwards the gradients resulting from the back propagation are averaged and applied to the original net. This option uses `std::thread`.
 
 | Name | Type | Default | Description |
 | ------------- | ------------- | ------------- | ------------- |
